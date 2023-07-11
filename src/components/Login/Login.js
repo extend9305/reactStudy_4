@@ -36,12 +36,15 @@ const Login = (props) => {
   const [emailState,dispatchEmail] = useReducer(emailReducer,{value:'',isValid: null});
   const [passwordState,dispatchPassword] = useReducer(passwordReducer,{value:'',isValid:null});
 
+  const {isValid : emailIsValid} = emailState;
+  const {isValid : passwordIsValid} = passwordState;
+
   useEffect(()=>{
 
     const identifier = setTimeout(()=>{
       console.log("Check validating !!");
       setFormIsValid(
-        emailState.value.includes('@') && passwordState.value.trim().length > 6
+        emailState.isValid && passwordState.isValid
       );
     },500);
 
@@ -50,7 +53,7 @@ const Login = (props) => {
       clearTimeout(identifier);
       console.log("clean up");
     }
-  },[emailState.value,passwordState.value]);
+  },[emailIsValid,passwordIsValid]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({type:"USER_INPUT",val:event.target.value});
